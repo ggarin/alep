@@ -1878,7 +1878,7 @@ def plot_range_effect(parameter='scale_leafSenescence',
                       values=[-30, -20, -10, -5, 0, 5, 10, 20, 30],
                       years=range(1999, 2007), nplants=15, leaf=1, markersize=10,
                       title='range_effect_audpc_scale_leafSenescence',
-                      correct_audpc=True):
+                      correct_audpc=True, force_rename=None):
     import matplotlib.pyplot as plt
     fig, axs = plt.subplots(1, 2, figsize=(16, 8))
     ax_audpc = axs[0]
@@ -1933,6 +1933,12 @@ def plot_range_effect(parameter='scale_leafSenescence',
         ax_audpc.set_ylim([0, 250])
         ax_audpc.set_xlim([-30, 30])
         ax_audpc.tick_params(axis='both', which='major', labelsize=20)
+
+        if parameter in force_rename:
+            annot = force_rename[parameter]
+        else:
+            annot = parameter
+        ax_audpc.annotate(annot, xy=(0.05, 0.92), xycoords='axes fraction', fontsize=32)
 
         ax_sev.errorbar(values, sevs, yerr=sevs_conf, linestyle='-',
                         marker=markers[yr], color=colors[yr], markersize=markersize)
@@ -2315,9 +2321,22 @@ if __name__ == '__main__':
     # plot_explore_scenarios_new(variable='audpc', title='Figure5_audpc', force_rename=force_rename_wheat_params(),
     #                            ylims=[0, 300])
 
+    # plot_range_effect(parameter='scale_leafSenescence',
+    #                   values=[-30, -20, -10, -5, 0, 5, 10, 20, 30],
+    #                   years=range(1999, 2007), nplants=15, leaf=1, markersize=10,
+    #                   title='range_effect_audpc_scale_leafSenescence',
+    #                   correct_audpc=True,
+    #                   force_rename=force_rename_wheat_params())
+    # plot_range_effect(parameter='scale_stemDim',
+    #                   values=[-30, -20, -10, -5, 0, 5, 10, 20, 30],
+    #                   years=range(1999, 2007), nplants=15, leaf=1, markersize=10,
+    #                   title='range_effect_audpc_scale_stemDim',
+    #                   correct_audpc=True,
+    #                   force_rename=force_rename_wheat_params())
     plot_range_effect(parameter='scale_stemRate',
                       values=[-30, -20, -10, -5, 0, 5, 10, 20, 30],
                       years=range(1999, 2007), nplants=15, leaf=1, markersize=10,
                       title='range_effect_audpc_scale_stemRate',
-                      correct_audpc=True)
+                      correct_audpc=True,
+                      force_rename=force_rename_wheat_params())
     plt.show()
